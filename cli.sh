@@ -14,14 +14,21 @@ while true ; do
     esac
 done
 
+dir=$(mktemp -d)
+
 config=$(cat <<EOF
+\ s" $dir/toshell" >shell!
+\ s" $dir/fromshell" shell>!
 main
+-shell
 EOF
 )
 
-dir=$(mktemp -d)
+#mkfifo "$dir/toshell"
+#mkfifo "$dir/fromshell"
+#bash < "$dir/toshell" > "$dir/fromshell" &
 trap "rm $dir/* ; rmdir $dir" 0
-tail -n +50 "$0" | tar xzC "$dir"
+tail -n +100 "$0" | tar xzC "$dir"
 "$dir/pforth" -q -d "$dir/object.lib" <(echo "$config")
 
 exit 0
