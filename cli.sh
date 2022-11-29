@@ -12,6 +12,7 @@ while true ; do
         -h | --help )  echo "$usage" ; exit 0 ;;
         * )  break ;;
     esac
+    shift
 done
 
 dir=$(mktemp -d)
@@ -21,6 +22,7 @@ config=$(cat <<EOF
 \ s" $dir/fromshell" shell>!
 main
 -shell
+\ .s
 EOF
 )
 
